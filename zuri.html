@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZuriGPT</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #121212;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #chat {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 30px;
+    }
+    .msg {
+      margin: 5px 0;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+    .user {
+      background-color: #2196F3;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .bot {
+      background-color: #4CAF50;
+      align-self: flex-start;
+      text-align: left;
+    }
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      width: 80%;
+    }
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #FF4081;
+      color: white;
+    }
+    .container {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 ChatBot Mejorado</h1>
+  <div id="chat"></div>
+  <div class="container">
+    <input type="text" id="input" placeholder="Escribe algo..." />
+    <button onclick="responder()">Enviar</button>
+  </div>
+
+  <script>
+    const respuestas = [
+      { palabras: ["hola", "holi", "qué onda", "que onda"], res: ["¡Hey!", "hola 😄", "¿qué tal?", "¿qué cuentas?"] },
+      { palabras: ["como estas", "cómo estás"], res: ["bien, ¿y tú?", "al 100 💪 ¿tú qué tal?", "todo tranqui 😎"] },
+      { palabras: ["que haces", "qué haces"], res: ["aquí echando el chisme 😏", "hablando contigo", "nada jaja, ¿y tú?"] },
+      { palabras: ["bien", "yo bien"], res: ["eso me da gusto 🔥", "me alegra 😁", "¡qué bueno!"] },
+      { palabras: ["mal", "triste"], res: ["ánimo bro 💪", "todo mejora, neta 🙌", "aquí estoy, cuéntame"] },
+      { palabras: ["nada", "aquí"], res: ["a veces eso también se disfruta 😌", "pues ya somos dos jajaja", "aquí andamos igual"] },
+      { palabras: ["me aburro"], res: ["hazme preguntas locas 😈", "¿jugamos a algo?", "cuéntame un chisme jaja"] },
+      { palabras: ["y tú", "¿y tú?"], res: ["lo mismo que tú jaja", "todo chill 😎", "esperando que me digas algo bueno"] },
+      { palabras: ["tienes novia", "novia", "tienes pareja"], res: ["jajaja no, solo tengo ojos para ti 😳", "aún no, ¿y tú?", "tú dime si quieres 😏"] },
+      { palabras: ["adiós", "bye", "nos vemos"], res: ["cámara, cuídate 😎", "bye bye 👋", "fue bueno hablar contigo"] },
+      { palabras: ["como estas?", "cómo estás?"], res: [
+          "todo bien, ¿y tú cómo vas?",
+          "andando relax, ¿tú qué haces?",
+          "todo tranqui por aquí, ¿y tú qué onda?"
+        ] },
+      { palabras: ["¿qué haces?", "¿qué tal?", "¿qué onda?"], res: [
+          "aquí esperando tu mensaje 😏",
+          "hablando contigo, ¿qué tal tú?",
+          "relajado, esperando saber qué cuentas"
+        ] },
+      { palabras: ["bien, ¿y tú?", "¿y tú cómo estás?"], res: [
+          "todo al cien, ¿y tú qué tal?",
+          "me alegra saber que estás bien 😁",
+          "igual todo bien, ¿y tú?"
+        ] },
+    ];
+
+    function responder() {
+      const input = document.getElementById("input");
+      const texto = input.value.toLowerCase().trim();
+      if (!texto) return;
+
+      mostrarMensaje(texto, "user");
+
+      let respuesta = "no sé qué decir 😅";
+      for (let grupo of respuestas) {
+        for (let palabra of grupo.palabras) {
+          if (texto.includes(palabra)) {
+            const posibles = grupo.res;
+            respuesta = posibles[Math.floor(Math.random() * posibles.length)];
+            break;
+          }
+        }
+      }
+
+      setTimeout(() => mostrarMensaje(respuesta, "bot"), 500);
+      input.value = "";
+    }
+
+    function mostrarMensaje(texto, tipo) {
+      const chat = document.getElementById("chat");
+      const msg = document.createElement("div");
+      msg.classList.add("msg", tipo);
+      msg.innerText = texto;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
